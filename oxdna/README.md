@@ -1,0 +1,29 @@
+# Code for: Twist-Dependent Elastic Limits and Unwinding of Tightly Bent DNA
+
+Analysis code for the oxDNA simulations in "Twist-Dependent Elastic Limits and Unwinding of Tightly
+Bent DNA" (*Nucleic Acids Research*, 2026). Authors, citation, and DOI:
+see the top-level README.
+
+# Program Descriptions
+
+* `compute_forces_fixed.py`: Computes the component of the force on a pair of nucleotides held approx. fixed in space along the helix normal (in order to measure the approx. force of tension on the ends of a DNA loop as provided in the supplementary material).
+* `fray_finder.py`: Searches a list of complementary base pair indices (can be obtained via `get_comp_list.py`) for melted base pairs (i.e., when model H-bond energy $V_{HB}$ is sufficiently small). Reports a list of all melted base pair indices for each configuration. 
+* `get_bend_and_twist_angles.py`: Calculates the bend and twist angles (in degrees) of DNA using the mathematics described by [Skoruppa et al.](https://pubs.aip.org/aip/jcp/article/146/21/214902/974005/DNA-elasticity-from-coarse-grained-simulations-The). The program requires a list of complementary base pair indices in the duplex as an input parameter (which can be created via `get_comp_list.py`) due to the nature of the calculation.
+* `get_comp_list.py` and `get_nick_comp_list.py`: Searches a trajectory for complementary pairs in the entire system (`get_comp_list.py`) or near the nick site (`get_nick_comp_list.py`) utilizing the model H-bond energies $V_{HB}$. It is designed to check multiple configurations (can be set as a program input) for complementary pairs, and provides the mode in case of problematic/unhybridized configurations.
+* `kink_finder_Harrison_method_new.py`: Structural kink detector described in Methods inspired and functionally similar to that of [Harrison et al.](https://pubs.acs.org/doi/10.1021/acs.jctc.9b00112) The program requires running `get_nick_comp_list.py` prior to running the kink detector to select out the nucleotides to check near the structural defect for kinking. This requires specifying the two nucleotide indices closest to the nick site, typically chosen to be on the in-tact strand (in line with what Harrison et al. describes). This detector only finds kinks near the location of the defect as it is currently coded.
+* `kink_finder_precise.py`: Energetic kink finder described briefly in Methods that utilizes a patternistic scheme of broken stacking and hydrogen bonds (determined via the model energies $V_{HB}$, $V_{stack}$, and $V_{cxstack}$) for determinining if a configuration is kinked. Uses a slightly modified version of [`base.py`](https://github.com/lorenzo-rovigatti/oxDNA/blob/master/legacy/UTILS/base.py) and [`readers.py`](https://github.com/lorenzo-rovigatti/oxDNA/blob/master/legacy/UTILS/readers.py) (now deprecated in newer builds of oxDNA analysis tools) provided in the folder. This detector will search the entire system for kinks, and will differentiate if the kink occurs specifically near a nick or in the rest of the ring.
+* `kymograph/`: Several programs using the outputs of `kink_finder_precise.py` and `get_bend_and_twist_angles.py` to perform the analysis necessary to create the kymographs found in the paper, including the animated plots found in the supplementary videos.
+
+# Dependencies
+
+Some of the code depends on the modern version of oxDNA analysis tools found bundled with the oxDNA code [here](https://github.com/lorenzo-rovigatti/oxDNA/tree/master/analysis/src/oxDNA_analysis_tools) with installation described [here](https://lorenzo-rovigatti.github.io/oxDNA/install.html). However, due to functionality differences and our research taking place before and after an overhaul in the parsers provided in OAT, a large portion of the code depends instead on the older build of oxDNA analysis tools provided [here](https://github.com/sulcgroup/oxdna_analysis_tools). For practicality purposes, we kept both builds of OAT available for use either via separate virtual environments or by hard-coding `sys.insert` paths into the code. As noted in description above, for `kink_finder_precise.py`, provided in the folder are also slightly modified versions of [`base.py`](https://github.com/lorenzo-rovigatti/oxDNA/blob/master/legacy/UTILS/base.py) and [`readers.py`](https://github.com/lorenzo-rovigatti/oxDNA/blob/master/legacy/UTILS/readers.py) that adds functionality to define a cut-off for two nucleotides to be regular stacked and/or coaxially stacked (mirroring the original versions' structure for detecting if two nucleotides are H-bonded).
+
+# Credits
+
+The oxDNA code found in [this repository](https://github.com/lorenzo-rovigatti/oxDNA) was essential to our work, specifically oxDNA analysis tools both for use of the code and for inspiring our written code which can be found currently [in this folder](https://github.com/lorenzo-rovigatti/oxDNA/tree/master/analysis/src/oxDNA_analysis_tools) of the aforementioned repository. As mentioned above, the work of Harrison et al. [found here](https://pubs.acs.org/doi/10.1021/acs.jctc.9b00112) inspired the algorithm used for our kink detector. The mathematics for calculating the bend and twist angles in `get_bend_and_twist_angles.py` was copied from the supplement of publication by Skoruppa et al. [found here](https://pubs.aip.org/aip/jcp/article/146/21/214902/974005/DNA-elasticity-from-coarse-grained-simulations-The) (using Triad II).
+
+# License
+
+GNU GPL v3.0 (see the top-level `LICENSE`). `base_modified.py` and
+`readers_modified.py` are modified versions of the GPL-licensed oxDNA
+analysis tools (Sulc group / oxDNA project); modifications are noted.
