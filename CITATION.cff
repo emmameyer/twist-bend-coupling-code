@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite it as below."
+title: "Code for: Twist-Dependent Elastic Limits and Unwinding of Tightly Bent DNA"
+type: software
+version: v1.0.0
+date-released: "YYYY-MM-DD"
+license: GPL-3.0-only
+repository-code: "https://github.com/ORG/REPO"
+authors:
+  - family-names: Chandrasekhar
+    given-names: Soumya
+  - family-names: Meyer
+    given-names: Emma
+  - family-names: Fadaei
+    given-names: Fatemeh
+  - family-names: Bricker
+    given-names: Rachel
+  - family-names: Swope
+    given-names: Thomas P.
+  - family-names: Schreck
+    given-names: Morgan
+  - family-names: Macri
+    given-names: Mark
+  - family-names: Houser
+    given-names: Draven
+  - family-names: Hollis
+    given-names: Daniel R.
+  - family-names: Portman
+    given-names: John J.
+  - family-names: Schmidt
+    given-names: Thorsten L.
