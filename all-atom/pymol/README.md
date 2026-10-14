@@ -1,1 +1,1 @@
-1. [DNA_protein_visualizer.txt](DNA_protein_visualizer.txt): copy & pastable visualizer that shows DNA and proteins as shown in the twist-bend manuscript (change the sele resi section at the beginning for each system).
+1. [DNA_protein_visualization.txt](DNA_protein_visualization.txt): copy & pastable visualizer that shows DNA and proteins as shown in the twist-bend manuscript (change the sele resi section at the beginning for each system).
