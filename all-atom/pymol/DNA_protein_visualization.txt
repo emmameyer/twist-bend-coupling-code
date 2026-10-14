@@ -1,0 +1,58 @@
+# clean up
+remove (hydro)
+bg_color white
+set fog, off
+set cartoon_oval_quality, 100
+set antialias, 2
+
+# define DNA selection
+# sugar-phosphate backbone atoms (missing #+c4'+c2'+c1'+o4'+c3'?)
+select DNA_backbone, name o1p+o2p+op1+op2+p+c5'+o5'+o3' 
+# nitrogenous base atoms
+select DNA_bases, name c2+c4+c5+c6+c7+c8+n1+n2+n3+n4+n6+n7+n9+o2+o4+o6+c5m+c4'+c2'+c1'+o4'+c3'
+
+# colors CHANGE TO FATEMEHS
+set_color Blue_T, [38,169,224]
+set_color Gray_T, [214,214,214]
+set_color Red_T, [255,0,0]
+
+select chain_A, resi 85-168
+select chain_B, resi 1-84
+select histones, polymer.protein
+
+colour Gray_T, DNA_backbone
+colour Gray_T, DNA_bases
+select chain_A_1, chain_A and DNA_backbone
+colour Red_T, chain_A_1
+select chain_B_1, chain_B and DNA_backbone
+color Blue_T, chain_B_1
+
+show cartoon, histones
+color green, histones
+
+show spheres, histones
+set_color histone_gray, [200, 200, 200]
+color histone_gray, histones
+set sphere_transparency, 0.7, histones
+
+set sphere_scale, 0.8, histones
+
+# configure cartoon
+hide everything
+show cartoon
+cartoon oval
+set cartoon_oval_width, 0.2
+set cartoon_oval_length, 1.3
+
+# two different looks:
+# ring mode (filled bases)
+set cartoon_ring_mode, 3
+set cartoon_ring_transparency, 0.5
+
+# ladder mode (stick bases)
+# set cartoon_ring_mode, 0
+# set cartoon_ladder_radius, 0.4
+
+# framing
+orient
+center
