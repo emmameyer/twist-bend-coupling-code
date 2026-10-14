@@ -1,0 +1,1 @@
+do_x3dna -f *.xtc -s *.gro -lbpsm -noavg -name _twist
