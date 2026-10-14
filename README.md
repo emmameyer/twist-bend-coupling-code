@@ -3,6 +3,7 @@
 Analysis code accompanying the paper "Twist-Dependent Elastic Limits and
 Unwinding of Tightly Bent DNA" (*Nucleic Acids Research*, 2026).
 
+Archived at Zenodo: https://doi.org/10.5281/zenodo.23376918
 
 ## Authors
 
