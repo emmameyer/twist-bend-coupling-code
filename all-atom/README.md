@@ -17,18 +17,18 @@ see the top-level README.
 | SciPy | 1.15.2 |
 | Matplotlib | 3.10.3 |
 | MDAnalysis | 2.9.0 |
-| PyMOL (only for `pymol/` scripts) | [version] |
+| PyMOL | 3.1.0 |
 
 Force field: `amber14sb_parmbsc1_cufix` with TIP3P water, 0.150 M NaCl.
 Production simulations were run on the Ohio Supercomputer Center.
 
 ## Contents
 
-- `gromacs_files/`: shell scripts and `.mdp` files for the MD pipeline
-  (`pdb2gmx` through production run). See `gromacs_files/README.md`.
-- `do_x3dna/`: the do_x3dna command used to extract base-pair step
+- [gromacs_files](gromacs_files): shell scripts and `.mdp` files for the MD pipeline
+  (`pdb2gmx` through production run). See [gromacs_files/README.md](gromacs_files/README.md).
+- [do_x3dna](do_x3dna): the do_x3dna command used to extract base-pair step
   parameters, including twist.
-- `code/twist_analysis/`: extracts and block-averages twist angles from
+- [code/twist_analysis/](code/twist_analysis/): extracts and block-averages twist angles from
   do_x3dna output.
 - `code/stacking_hbond/`: builds Watson-Crick h-bond index groups and
   analyzes h-bonding and base stacking.
