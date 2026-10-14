@@ -2,12 +2,12 @@
 #SBATCH --job-name=semicircle_histone   # Job name specific to this run
 #SBATCH -o %x.o%j
 #SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=emeyer12@kent.edu
+#SBATCH --mail-user=***
 #SBATCH --time=160:00:00
 #SBATCH --nodes=1 
 #SBATCH --ntasks-per-node=12 
 #SBATCH --gpus-per-node=1
-#SBATCH --account=PGS0408
+#SBATCH --account=###
 
 set +vx
 module reset
