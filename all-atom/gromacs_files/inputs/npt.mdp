@@ -1,0 +1,50 @@
+; npt.mdp
+title                   = NPT Equilibration (100 ps)
+define                  = -DPOSRES
+
+; run control
+integrator              = md
+nsteps                  = 50000    ; 100 ps (50000 * 0.002 ps)
+dt                      = 0.002     
+
+; output control
+nstxout-compressed      = 2500      ; Save compressed coordinates every 5 ps
+nstvout                 = 0         ; Don't save velocities
+nstfout                 = 0         ; Don't save forces
+nstlog                  = 1000      ; Log file update every 1 ps
+nstenergy               = 1000      ; Save energies every 1 ps
+
+; bond parameters
+continuation            = yes
+constraints             = h-bonds
+constraint_algorithm    = lincs
+
+; nonbonded settings
+cutoff-scheme           = Verlet
+nstlist                 = 20        
+rlist                   = 0.9       
+coulombtype             = PME
+rcoulomb                = 0.9       
+vdwtype                 = Cut-off
+vdw-modifier            = None      
+DispCorr                = EnerPres  
+rvdw                    = 0.9       
+pbc                     = xyz
+
+; temperature coupling
+tcoupl                  = V-rescale
+tc-grps                 = System
+tau_t                   = 1.0      
+ref_t                   = 300
+
+; pressure coupling
+pcoupl                  = C-rescale
+pcoupltype              = isotropic             ; Uniform scaling
+tau_p                   = 5.0                   ; Time constant (ps)
+ref_p                   = 1.0                   ; Target pressure (bar)
+compressibility         = 4.5e-5                ; For water
+refcoord_scaling        = com                   ; Scales the restraint reference coords with the box
+
+
+; velocity generation
+gen_vel                 = no    

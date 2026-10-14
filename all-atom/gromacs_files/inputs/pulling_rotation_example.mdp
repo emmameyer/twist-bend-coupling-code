@@ -1,0 +1,143 @@
+; md.mdp enfored rotation with hbond dist restraints
+define                          = -DPOSRES_STAT -DPOSRES_ROT  ; stationary terminal strong posre (fc=1000), rotating terminal weak posre (fc=5 5 50) to hold in place/keep intact
+
+integrator                      = md
+nsteps                          = 30000000      ; 60 ns run (30,000,000 * 0.002 ps)
+dt                              = 0.002         ; 2 fs
+
+nstxout-compressed              = 25000           ; Save coordinates every 0.5 ps, change for normal runs, its only this low for small short runs
+nstlog                          = 1000          ; Log file update every 1 ps
+nstenergy                       = 1000          ; Save energies every 1 ps
+
+cutoff-scheme                   = Verlet
+nstlist                         = 20
+vdwtype                         = Cut-off
+vdw-modifier                    = None
+DispCorr                        = EnerPres
+rvdw                            = 0.9
+rlist                           = 0.9
+rcoulomb                        = 0.9
+coulombtype                     = PME
+
+tcoupl                          = V-rescale
+tc-grps                         = System
+tau_t                           = 1.0
+ref_t                           = 300
+
+pcoupl                          = C-rescale
+pcoupltype                      = isotropic
+tau_p                           = 5.0
+ref_p                           = 1.0
+compressibility                 = 4.5e-5
+
+constraints                     = h-bonds
+constraint_algorithm            = LINCS
+continuation                    = yes
+gen_vel                         = no
+refcoord_scaling                = com           ; scales posre reference coords with box during pressure coupling
+
+; pull code
+; h-bond dist restraints for 8 bps (4 on either terminal)
+; N1-N3/N3-N1 atoms are chosen
+; fc=10000 kJ/mol/nm^2, flat-bottom style via umbrella with init=0 and start=yes
+; bp1-4 = rotating terminal
+; bp5-8 = stationary terminal
+
+pull                            = yes
+pull-ncoords                    = 8             ; one distance restraint per base pair
+pull-ngroups                    = 16            ; two single-atom groups per base pair
+pull-group1-name                = hbond_bp1_a   
+pull-group2-name                = hbond_bp1_b
+pull-group3-name                = hbond_bp2_a
+pull-group4-name                = hbond_bp2_b
+pull-group5-name                = hbond_bp3_a
+pull-group6-name                = hbond_bp3_b 
+pull-group7-name                = hbond_bp4_a  
+pull-group8-name                = hbond_bp4_b  
+pull-group9-name                = hbond_bp5_a 
+pull-group10-name               = hbond_bp5_b  
+pull-group11-name               = hbond_bp6_a  
+pull-group12-name               = hbond_bp6_b  
+pull-group13-name               = hbond_bp7_a  
+pull-group14-name               = hbond_bp7_b   
+pull-group15-name               = hbond_bp8_a  
+pull-group16-name               = hbond_bp8_b  
+pull-coord1-type                = umbrella       ; harmonic restraint at target distance
+pull-coord1-geometry            = distance       ; simple scalar distance
+pull-coord1-groups              = 1 2            
+pull-coord1-dim                 = Y Y Y          ; restrain in all dimensions
+pull-coord1-start               = yes            ; use initial structure distance as reference
+pull-coord1-init                = 0              ; no offset from initial distance
+pull-coord1-k                   = 10000          ; fc=10000 kJ/mol/nm^2, stiff H-bond restraint
+pull-coord2-type                = umbrella
+pull-coord2-geometry            = distance
+pull-coord2-groups              = 3 4          
+pull-coord2-dim                 = Y Y Y
+pull-coord2-start               = yes
+pull-coord2-init                = 0
+pull-coord2-k                   = 10000
+pull-coord3-type                = umbrella
+pull-coord3-geometry            = distance
+pull-coord3-groups              = 5 6           
+pull-coord3-dim                 = Y Y Y
+pull-coord3-start               = yes
+pull-coord3-init                = 0
+pull-coord3-k                   = 10000
+pull-coord4-type                = umbrella
+pull-coord4-geometry            = distance
+pull-coord4-groups              = 7 8         
+pull-coord4-dim                 = Y Y Y
+pull-coord4-start               = yes
+pull-coord4-init                = 0
+pull-coord4-k                   = 10000
+pull-coord5-type                = umbrella
+pull-coord5-geometry            = distance
+pull-coord5-groups              = 9 10           
+pull-coord5-dim                 = Y Y Y
+pull-coord5-start               = yes
+pull-coord5-init                = 0
+pull-coord5-k                   = 10000
+pull-coord6-type                = umbrella
+pull-coord6-geometry            = distance
+pull-coord6-groups              = 11 12      
+pull-coord6-dim                 = Y Y Y
+pull-coord6-start               = yes
+pull-coord6-init                = 0
+pull-coord6-k                   = 10000
+pull-coord7-type                = umbrella
+pull-coord7-geometry            = distance
+pull-coord7-groups              = 13 14         
+pull-coord7-dim                 = Y Y Y
+pull-coord7-start               = yes
+pull-coord7-init                = 0
+pull-coord7-k                   = 10000
+pull-coord8-type                = umbrella
+pull-coord8-geometry            = distance
+pull-coord8-groups              = 15 16          
+pull-coord8-dim                 = Y Y Y
+pull-coord8-start               = yes
+pull-coord8-init                = 0
+pull-coord8-k                   = 10000
+
+; enforced rotation
+; flex2-t: flexible axis torsional rotation, good for curved DNA
+; rotating terminal twisted around helical axis (X axis, confirmed via N1N3 COM vector using gmx traj -com)
+; stationary terminal held by strong posre (fc=1000), rotating terminal by weak posre (fc=5 5 50)
+
+rotation                        = yes
+rot-ngroups                     = 1                     ; one rotating group
+rot-group0                      = rotate_terminal       
+rot-type0                       = flex2-t               ; flexible torsional axis, coworker confirmed
+rot-massw0                      = yes                   ; mass weighted, stabilizes multi-atom group rotation
+rot-vec0                        = 0.88147 -0.46229 -0.09641 ; helical axis along X, confirmed via N1N3 COM calculation
+rot-pivot0                      = 8.90342 10.2953 6.14099  ; COM of rotate_terminal group [nm]
+rot-rate0                       = 0.009                   ; [deg/ps] aggressive rate for visual test; change to 0.001 for real experiment
+rot-k0                          = 200                   ; [kJ mol-1 nm-2] force constant, conservative starting value
+rot-slab-dist0                  = 0.3                   ; [nm] tight slabs appropriate for short 4bp terminal
+rot-min-gauss0                  = 0.001                 ; cutoff for Gaussian force evaluation
+rot-eps0                        = 0.0001                ; [nm2] additive constant for flex2 potential
+rot-fit-method0                 = norm                  ; recommended fitting method for flex2-t
+rot-potfit-nsteps0              = 21                    ; angular positions for potential fit evaluation
+rot-potfit-step0                = 0.25                  ; [deg] angular step for potential fit
+rot-nstrout                     = 100                     ; output rotation angle/torque every step (dense for test)
+rot-nstsout                     = 1000                    ; output per-slab data every 10 steps
