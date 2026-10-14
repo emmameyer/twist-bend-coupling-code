@@ -5,7 +5,7 @@
 4. [solvate_add_ions.sh](solvate_add_ions.sh): solvates the system, adds ions, 0.150 M, runs second em, step 4
 5. [nvt_npt.sh](nvt_npt.sh): nvt and npt steps, step 5
 6. [correct_trajectory.sh](correct_trajectory.sh): corrects the trajectory md files, change names per usual, ensure EOF is selecting the right group from index file, step 6
-7. [sbatch_md_production.slurm](sbatch_md_production.slurm): production run batch script to submit the run as a job on the OSC. It continues from npt, unless altered to continue from a previous production run, step 7.
+7. [sbatch_md_prod.slurm](sbatch_md_prod.slurm): production run batch script to submit the run as a job on the OSC. It continues from npt, unless altered to continue from a previous production run, step 7.
 8. [concatenate.txt](concatenate.txt): gromacs command for combining trajectory files. this is done when extending simulations. this concatenated xtc file is all you need for extending simulations, the gro and tpr file from the second simulation will work for analysis, no need to combine these.
 
 ## In general, the step by step process of simulation goes as follows:
