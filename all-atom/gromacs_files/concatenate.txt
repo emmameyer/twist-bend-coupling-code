@@ -1,0 +1,7 @@
+# use the following gromacs command to concatenate two simulations
+# concat is used to combine simulation xtc files into one continuous trajectory.
+# this is needed when we extend simulations.
+
+gmx trjcat -f $input1.xtc $input2.xtc -o combo.xtc -settime
+
+# the settime flag is important (at least it always has in my case). settime will ask you to interactively specify the start time of the input files, in ps. the first input will most likely be 0, but the second will be whatever time your first simulation went to.
