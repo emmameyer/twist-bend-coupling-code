@@ -19,13 +19,13 @@ cd "$output_location" || exit
 # Hbond
 printf "Hbond analysis...\n"
 printf "Pairs ndx:\n"
-python3 /Users/emma/Documents/kent/fraying_analysis/circular_analysis/make_wc_pairs_ndx_circular.py \
+python3 /.../make_wc_pairs_ndx_circular.py \ # change directorys to fit
 "$input_gro" \
 "$bps" \
 "$output_location"
 
 printf "Triplets ndx:\n"
-python3 /Users/emma/Documents/kent/fraying_analysis/circular_analysis/make_wc_triplets_ndx_circular.py \
+python3 /.../make_wc_triplets_ndx_circular.py \
 "$input_gro" \
 "$bps" \
 "$output_location"
@@ -47,7 +47,7 @@ $bps
 EOF
 
 printf "Plotting Hbond analysis...\n"
-python3 /Users/emma/Documents/kent/fraying_analysis/circular_analysis/plot_hbond.py \
+python3 /.../plot_hbond.py \
 "HBOND: $title" \
 hbond_dist.xvg \
 hbond_angle.xvg \
@@ -60,7 +60,7 @@ hbond_angle.xvg \
 # Stacking
 printf "Stacking analysis...\n"
 printf "Ndx maker...\n"
-python3 /Users/emma/Documents/kent/fraying_analysis/circular_analysis/make_nucleobase_plane_COM_index_files.py \
+python3 /.../make_nucleobase_plane_COM_index_files.py \
 "$nucleotides" \
 "$input_gro" \
 "$output_location"
@@ -87,7 +87,7 @@ echo "RESI_${i}" | gmx traj -f "$input_traj" \
 done
 
 printf "Plotting stacking analysis...\n"
-python3 /Users/emma/Documents/kent/fraying_analysis/circular_analysis/plot_stacking_colormap.py \
+python3 /.../plot_stacking_colormap.py \
 "Stacking: $title" \
 com_files \
 vec_files \
